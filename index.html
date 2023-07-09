@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Website</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    
+    header {
+      background-color: #333;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+    
+    nav {
+      background-color: #f4f4f4;
+      padding: 10px;
+    }
+    
+    nav ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    
+    nav ul li {
+      display: inline-block;
+      margin: 0 10px;
+    }
+    
+    nav ul li a {
+      text-decoration: none;
+      color: #333;
+    }
+    
+    /* New styles for the dropdown menu */
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+    
+    .dropdown-content a {
+      color: #333;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+    
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+    
+    main {
+      padding: 20px;
+    }
+    
+    section {
+      margin-bottom: 20px;
+    }
+    
+    footer {
+      background-color: #333;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+    
+    /* Additional styles for the service boxes */
+    .service-box {
+      border: 1px solid #ccc;
+      padding: 20px;
+      text-align: center;
+      margin-bottom: 20px;
+      transition: all 0.3s ease-in-out;
+      cursor: pointer;
+      background-color: #f9f9f9;
+      border-radius: 5px;
+    }
+    
+    .service-box:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    }
+    
+    .service-title {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    
+    .service-description {
+      font-size: 16px;
+    }
+    
+    .enter-button {
+      background-color: #333;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      text-decoration: none;
+      font-size: 16px;
+      margin-top: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease-in-out;
+      border-radius: 3px;
+    }
+    
+    .enter-button:hover {
+      background-color: #555;
+    }
+    
+    /* Media queries for responsive design */
+    /* Mobile devices */
+    @media only screen and (max-width: 600px) {
+      header h1 {
+        font-size: 24px;
+      }
+      
+      nav ul li a {
+        font-size: 16px;
+      }
+      
+      .service-title {
+        font-size: 20px;
+      }
+      
+      .service-description {
+        font-size: 14px;
+      }
+      
+      .enter-button {
+        font-size: 14px;
+      }
+    }
+    
+    /* Desktop devices */
+    @media only screen and (min-width: 601px) {
+      header h1 {
+        font-size: 36px;
+      }
+      
+      nav ul li a {
+        font-size: 18px;
+      }
+      
+      .service-title {
+        font-size: 24px;
+      }
+      
+      .service-description {
+        font-size: 18px;
+      }
+      
+      .enter-button {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Welcome to My Website</h1>
+  </header>
+  
+  <nav>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Contact</a></li>
+      <li class="dropdown">
+        <a href="#">Features</a>
+        <div class="dropdown-content">
+          <a href="new-citizen.html">New Citizen</a>
+          <a href="local-citizen.html">Local Citizen</a>
+          <a href="tourist.html">Tourist</a>
+        </div>
+      </li>
+    </ul>
+  </nav>
+  
+  <main>
+    <section>
+      <h2>About</h2>
+      <p>To provide every individual with comprehensive information and insights about shops and workers, 
+        enabling them to make informed decisions based on quality. Additionally, we aim to bridge the gap between people and 
+        shops by effectively advertising the businesses and connecting customers with the right establishments</p>
+    </section>
+    
+    <section>
+      <div class="service-box">
+        <h2 class="service-title">New Citizen</h2>
+        <p class="service-description">This service is for new citizens. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        <a href="new-citizen.html" class="enter-button">Enter</a>
+      </div>
+      
+      <div class="service-box">
+        <h2 class="service-title">Local People</h2>
+        <p class="service-description">This service is for local people. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        <a href="local-citizen.html" class="enter-button">Enter</a>
+      </div>
+      
+      <div class="service-box">
+        <h2 class="service-title">Traveler</h2>
+        <p class="service-description">This service is for travelers. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        <a href="tourist.html" class="enter-button">Enter</a>
+      </div>
+    </section>
+  </main>
+  
+  <footer>
+    <p>&copy; 2023 My Website. All rights reserved.</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Traveller</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    
+    header {
+      background-color: #333;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+  
+    nav {
+      background-color: #f1f1f1;
+      padding: 10px;
+    }
+  
+    nav ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+  
+    nav ul li {
+      display: inline-block;
+      margin-right: 10px;
+    }
+  
+    nav ul li a {
+      color: #333;
+      text-decoration: none;
+      padding: 5px;
+      border-radius: 3px;
+    }
+  
+    nav ul li a:hover {
+      background-color: #333;
+      color: #fff;
+    }
+  
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      min-width: 160px;
+      box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+  
+    .dropdown-content a {
+      color: #333;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+  
+    .dropdown-content a:hover {
+      background-color: #f1f1f1;
+    }
+  
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+  
+    .sub-dropdown-content {
+      display: none;
+      background-color: #f9f9f9;
+      padding-left: 16px;
+    }
+  
+    .dropdown-content .sub-dropdown-content a {
+      padding: 6px 16px;
+    }
+  
+    .dropdown-content:hover .sub-dropdown-content {
+      display: block;
+    }
+  
+    main {
+      padding: 20px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+  
+#map {
+  width: 60%;
+  height: 500px;
+  margin-top: 10px;
+  position: fixed;
+  right: 0;
+}
+
+
+.navbar {
+  position: relative;
+  z-index: 1;
+}
+.box {
+  width: 35%;
+  height: 400px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  float: left;
+}
+
+  
+    .box h3 {
+      margin-top: 0;
+    }
+  
+    #selectedItems {
+      list-style-type: none;
+      padding-left: 0;
+    }
+  
+    #selectedItems li {
+      margin-bottom: 5px;
+    }
+  
+    .popup-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      display: none;
+    }
+  
+    .popup {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      max-width: 300px;
+      text-align: center;
+    }
+  
+    .popup h2 {
+      margin-top: 0;
+    }
+  
+    .popup input[type="number"] {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 5px;
+    }
+  
+    .popup button {
+      padding: 8px 20px;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+  
+    .result {
+      padding: 5px;
+      border-bottom: 1px solid #ccc;
+    }
+  
+    @media (max-width: 768px) {
+      main {
+        flex-direction: column;
+        align-items: stretch;
+      }
+  
+      #map {
+        width: 100%;
+        height: 300px;
+        margin-bottom: 10px;
+      }
+  
+      .box {
+        width: 100%;
+        height: auto;
+        margin-left: 0;
+        margin-bottom: 10px;
+        margin-right: 5;
+      }
+    }
+
+    #results {
+      margin-top: 20px;
+      clear: both;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .show-container-button {
+  margin-top: 10px;
+  text-align: left;
+  position: relative; /* Add position relative to the container */
+}
+
+.dropdown-button {
+  display: inline-block;
+  cursor: pointer;
+  padding: 5px 10px;
+  background-color: #ccc;
+  border: none;
+  color: #000;
+  position: fixed; /* Position the button fixed */
+  top: 179px; /* Position it 10px from the top */
+  left: 10px; /* Position it 10px from the left */
+}
+
+.result-box {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.result-title {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.result-details {
+  margin-bottom: 10px;
+}
+
+.result-rating {
+  font-style: italic;
+  color: #888;
+}
+
+.show-more-btn {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.show-more-btn:hover {
+  background-color: #45a049;
+}
+
+#suggestions {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+#suggestions li {
+  cursor: pointer;
+  padding: 5px;
+}
+
+#suggestions li:hover {
+  background-color: #f0f0f0;
+}
+.result-container {
+  display: flex;
+  flex-direction:column;
+  align-items: flex-start;
+  width: 300px;
+  margin-top: 20px;
+}
+
+.result {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.result:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.result-title {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.result-details {
+  margin-bottom: 10px;
+  color: #888888;
+}
+
+.result-rating {
+  font-style: italic;
+  color: #2e2a2b;
+  margin-bottom: 10px;
+}
+
+.result-image {
+  width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
+
+.result-link {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #000000;
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.result-link:hover {
+  background-color: #db2a4d;
+}
+
+
+  </style>
+  
+</head>
+
+<body>
+  <header>
+    <h1>Local People Page</h1>
+  </header>
+  <nav>
+    <ul>
+      <li class="dropdown">
+        <a href="javascript:void(0)" class="dropbtn">Requirements for Traveler</a>
+        <div class="dropdown-content">
+          <a href="#">Accommodation</a>
+          <a href="#">Transportation</a>
+          <a href="#">Restaurants</a>
+          <a href="#">Attractions</a>
+          <a href="#">Guides</a>
+          <a href="#">Currency Exchange</a>
+          <a href="#">Emergency Services</a>
+          <a href="#">Internet Access</a>
+        </div>
+      </li>
+      <li class="dropdown">
+        <a href="javascript:void(0)" class="dropbtn">Requirements for Tourist</a>
+        <div class="dropdown-content">
+          <a href="#">Tourist Information Center</a>
+          <a href="#">Sightseeing Tours</a>
+          <a href="#">Museums</a>
+          <a href="#">Historical Sites</a>
+          <a href="#">Shopping Areas</a>
+          <a href="#">Events and Festivals</a>
+          <a href="#">Photography Spots</a>
+          <a href="#">Local Cuisine</a>
+          <a href="#">Souvenir Shops</a>
+        </div>
+      </li>
+    </ul>
+  </nav>
+  
+  <main>
+    <div id="map"></div>
+
+    <div class="box">
+      <div class="selectedItems">
+        <h3>Selected Items:</h3>
+        <ul id="selectedItems"></ul>
+      </div>
+          <button onclick="displayRadiusPopup()">Submit</button>
+
+    </div>
+
+    <div class="result-container" id="results"></div>
+
+    <div class="popup-container" id="locationPopupContainer">
+      <div class="popup">
+        <h2>Access Location</h2>
+        <p>This website would like to access your location. Allow access to automatically detect your location, or enter it manually.</p>
+        <button onclick="allowLocationAccess()">Allow</button>
+        <button onclick="enterLocationPopup()">Enter Manually</button>
+      </div>
+    </div>
+
+
+    <div class="popup-container" id="popupContainer">
+      <div class="popup">
+        <h2>Enter Location Manually</h2>
+        <p>Enter the location manually:</p>
+        <input type="text" id="locationInput" placeholder="Enter location" oninput="getSuggestions();" />
+        <ul id="suggestions"></ul>
+        <button onclick="closeLocationPopup()">Cancel</button>
+        <input type="submit" value="Submit" onclick="searchServices()">
+      </div>
+    </div>     
+
+    <div class="popup-container" id="radiusPopupContainer">
+      <div class="popup">
+        <h2>Set Search Radius</h2>
+        <p>Enter the search radius:</p>
+        <input type="number" id="radiusInput" placeholder="Enter radius">
+        <button onclick="searchServices()">Search</button>
+        <button onclick="closeRadiusPopup()">Cancel</button>
+      </div>
+    </div>
+
+    <div class="show-container-button">
+      <button class="dropdown-button" onclick="toggleBox()">▼</button>
+    </div>
+  </main>
+
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <script>
+    var map;
+    var radiusInput = document.getElementById("radiusInput");
+    var box = document.querySelector(".box");
+    var resultsContainer = document.getElementById("results");
+
+function getCurrentLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      var latitude = position.coords.latitude;
+      var longitude = position.coords.longitude;
+      var currentLocation = [latitude, longitude];
+      map.setView(currentLocation, 13);
+      L.marker(currentLocation).addTo(map)
+        .bindPopup('Current Location')
+        .openPopup();
+      closePopup();
+    }, function (error) {
+      console.log(error);
+      alert('Error retrieving current location.');
+    });
+  } else {
+    alert('Geolocation is not supported by your browser.');
+  }
+}
+
+function allowLocationAccess() {
+  getCurrentLocation();
+}
+
+
+    function loadLocationOnMap(latitude, longitude) {
+  L.marker([latitude, longitude]).addTo(map)
+    .bindPopup('Manually Entered Location')
+    .openPopup();
+}
+
+function getSuggestions() {
+  var locationInput = document.getElementById("locationInput").value;
+  if (locationInput.trim() !== "") {
+    var url =
+      "https://nominatim.openstreetmap.org/search?format=json&q=" +
+      encodeURIComponent(locationInput) +
+      "&countrycodes=IN";
+
+    $.getJSON(url, function (data) {
+      var suggestionsList = document.getElementById("suggestions");
+      suggestionsList.innerHTML = "";
+      data.forEach(function (item) {
+        var li = document.createElement("li");
+        li.textContent = item.display_name;
+        li.setAttribute("onclick", "selectSuggestion('" + item.display_name + "')");
+        suggestionsList.appendChild(li);
+      });
+    });
+  } else {
+    document.getElementById("suggestions").innerHTML = "";
+  }
+}
+
+function selectSuggestion(suggestion) {
+  document.getElementById("locationInput").value = suggestion;
+  closeLocationPopup();
+  locateSelectedLocation(suggestion);
+}
+
+function locateSelectedLocation(location) {
+  var url =
+    "https://nominatim.openstreetmap.org/search?format=json&q=" +
+    encodeURIComponent(location) +
+    "&countrycodes=IN";
+
+  $.getJSON(url, function (data) {
+    if (data.length > 0) {
+      var lat = parseFloat(data[0].lat);
+      var lon = parseFloat(data[0].lon);
+      map.setView([lat, lon], 13);
+      var marker;
+      if (marker) {
+        map.removeLayer(marker);
+      }
+      marker = L.marker([lat, lon]).addTo(map);
+    } else {
+      alert("Location not found.");
+    }
+  });
+}
+
+
+
+function searchLocation() {
+  var locationInput = document.getElementById("locationInput").value;
+  var url =
+    "https://nominatim.openstreetmap.org/search?format=json&q=" +
+    encodeURIComponent(locationInput) +
+    "&countrycodes=IN";
+
+  $.getJSON(url, function (data) {
+    if (data.length > 0) {
+      var lat = parseFloat(data[0].lat);
+      var lon = parseFloat(data[0].lon);
+      map.setView([lat, lon], 13);
+      var marker;
+      if (marker) {
+        map.removeLayer(marker);
+      }
+      marker = L.marker([lat, lon]).addTo(map);
+      closePopup();
+      openTouristPopup();
+    } else {
+      alert("Location not found.");
+    }
+  });
+}
+
+function searchServices() {
+  var radius = parseFloat(radiusInput.value);
+  console.log("Searching services within radius:", radius);
+
+  // Get the input value
+  var location = document.getElementById("locationInput").value;
+
+  var latitude, longitude;
+
+  // Check if geolocation is available
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      latitude = position.coords.latitude;
+      longitude = position.coords.longitude;
+
+      map.setView([latitude, longitude], 13);
+      L.marker([latitude, longitude]).addTo(map)
+        .bindPopup('You are here!')
+        .openPopup();
+
+      box.style.display = "none"; // Hide the container box
+
+      resultsContainer.innerHTML = ""; // Clear previous results
+
+      // Simulate fake service locations
+      var serviceTypes = document.getElementById("selectedItems").getElementsByTagName("a");
+      for (var i = 0; i < serviceTypes.length; i++) {
+        var serviceType = serviceTypes[i].textContent;
+        var serviceLocations = [];
+        for (var j = 0; j < 3; j++) { // Generate 3 fake locations for each service type
+          var fakeLocation = getRandomCoordinateInRange(latitude, longitude, radius);
+          serviceLocations.push(fakeLocation);
+          L.marker(fakeLocation).addTo(map)
+            .bindPopup(serviceType + " #" + (j + 1))
+            .openPopup();
+
+          // Display the location details in the result box
+          var resultItem = document.createElement("div");
+          resultItem.classList.add("result");
+          resultItem.textContent = serviceType + " #" + (j + 1) + ": " + fakeLocation[0] + ", " + fakeLocation[1];
+          resultsContainer.appendChild(resultItem);
+        }
+      }
+
+      // Center the map on the manually entered location
+      locateSelectedLocation(location);
+    });
+  }
+}
+
+
+function loadServices() {
+  var latitude = parseFloat(latitudeInput.value);
+  var longitude = parseFloat(longitudeInput.value);
+
+  if (isNaN(latitude) || isNaN(longitude)) {
+    alert("Please enter valid latitude and longitude values.");
+    return;
+  }
+
+  map.setView([latitude, longitude], 13);
+  loadLocationOnMap(latitude, longitude);
+
+  resultsContainer.innerHTML = ""; // Clear previous results
+
+  var radius = parseFloat(radiusInput.value);
+
+  // Simulate fake service locations
+  var serviceTypes = document.getElementById("selectedItems").getElementsByTagName("a");
+  for (var i = 0; i < serviceTypes.length; i++) {
+    var serviceType = serviceTypes[i].textContent;
+    var serviceLocations = [];
+    for (var j = 0; j < 3; j++) { // Generate 3 fake locations for each service type
+      var fakeLocation = getRandomCoordinateInRange(latitude, longitude, radius);
+      serviceLocations.push(fakeLocation);
+      var marker = L.marker(fakeLocation).addTo(map);
+      marker.bindPopup(serviceType + " #" + (j + 1));
+      marker.openPopup();
+
+      // Display the location details in the result box
+      var resultItem = document.createElement("div");
+      resultItem.classList.add("result");
+      resultItem.textContent = serviceType + " #" + (j + 1) + ": " + fakeLocation[0] + ", " + fakeLocation[1];
+      resultsContainer.appendChild(resultItem);
+    }
+  }
+}
+
+function displayRadiusPopup() {
+  var radius = parseFloat(radiusInput.value);
+  if (isNaN(radius) || radius <= 0) {
+    alert("Please enter a valid radius value.");
+    return;
+  }
+
+  alert("Radius: " + radius);
+}
+
+    function closeRadiusPopup() {
+      var radiusPopupContainer = document.getElementById("radiusPopupContainer");
+      radiusPopupContainer.style.display = "none";
+    }
+
+    function allowLocationAccess() {
+      closeLocationPopup();
+      var locationPopupContainer = document.getElementById("locationPopupContainer");
+      locationPopupContainer.style.display = "none";
+
+      getLocation();
+    }
+
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition, showLocationError);
+      } else {
+        alert("Geolocation is not supported by this browser.");
+      }
+    }
+
+    function enterLocationPopup() {
+      var locationPopupContainer = document.getElementById("locationPopupContainer");
+      locationPopupContainer.style.display = "none";
+
+      var popupContainer = document.getElementById("popupContainer");
+      popupContainer.style.display = "flex";
+    }
+
+    function showLocationError(error) {
+      console.error("Error occurred while retrieving location:", error.message);
+    }
+
+    function askForLocationPermission() {
+      if (navigator.permissions) {
+        navigator.permissions.query({ name: 'geolocation' }).then(function (result) {
+          if (result.state === 'granted') {
+            getLocation();
+          } else if (result.state === 'prompt') {
+            displayLocationAccessPopup();
+          } else {
+            console.log('Location permission denied or unavailable.');
+          }
+        });
+      } else {
+        console.log('Geolocation permissions API is not supported.');
+      }
+    }
+
+    window.onload = function () {
+      initMap();
+      askForLocationPermission();
+    };
+
+    function showPosition(position) {
+      var latitude = position.coords.latitude;
+      var longitude = position.coords.longitude;
+      console.log("Latitude: " + latitude + ", Longitude: " + longitude);
+
+      map.setView([latitude, longitude], 13);
+
+      L.marker([latitude, longitude]).addTo(map)
+        .bindPopup('You are here!')
+        .openPopup();
+
+      closeLocationPopup();
+    }
+
+    function initMap() {
+      map = L.map("map").setView([51.505, -0.09], 13);
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "&copy; OpenStreetMap contributors",
+      }).addTo(map);
+    }
+
+    function displayLocationAccessPopup() {
+      var locationPopupContainer = document.getElementById("locationPopupContainer");
+      locationPopupContainer.style.display = "flex";
+    }
+
+    function closeLocationPopup() {
+      var popupContainer = document.getElementById("popupContainer");
+      popupContainer.style.display = "none";
+    }
+
+    function addToBox(item) {
+      var selectedItems = document.getElementById("selectedItems");
+      var listItem = document.createElement("li");
+      var link = document.createElement("a");
+      link.href = "javascript:void(0)";
+      link.textContent = item;
+      link.addEventListener("click", function () {
+        this.parentNode.parentNode.removeChild(this.parentNode);
+      });
+      listItem.appendChild(link);
+      selectedItems.appendChild(listItem);
+    }
+
+    var dropdownItems = document.getElementsByClassName("dropdown-content");
+    for (var i = 0; i < dropdownItems.length; i++) {
+      var items = dropdownItems[i].getElementsByTagName("a");
+      for (var j = 0; j < items.length; j++) {
+        items[j].addEventListener("click", function () {
+          addToBox(this.textContent);
+        });
+      }
+    }
+
+    function displayRadiusPopup() {
+      var radiusPopupContainer = document.getElementById("radiusPopupContainer");
+      radiusPopupContainer.style.display = "flex";
+    }
+
+    function closeRadiusPopup() {
+      var radiusPopupContainer = document.getElementById("radiusPopupContainer");
+      radiusPopupContainer.style.display = "none";
+    }
+
+    function searchServices() {
+      var radius = radiusInput.value;
+      console.log("Searching services within radius:", radius);
+      closeRadiusPopup();
+    }
+      function getRandomCoordinateInRange(latitude, longitude, maxDistance) {
+    // Generate a random distance within the specified maxDistance
+    var distance = Math.random() * maxDistance;
+    // Generate a random angle in radians
+    var angle = Math.random() * 2 * Math.PI;
+    // Convert distance and angle to x and y components
+    var deltaX = distance * Math.cos(angle);
+    var deltaY = distance * Math.sin(angle);
+    // Calculate the new latitude and longitude
+    var newLatitude = latitude + (deltaY / 111.32); // 1 degree of latitude is approximately 111.32 km
+    var newLongitude = longitude + (deltaX / (111.32 * Math.cos(latitude * Math.PI / 180))); // Adjust for longitude based on latitude
+
+    return [newLatitude, newLongitude];
+  }
+
+
+  function searchServices() {
+  var radius = parseFloat(radiusInput.value);
+  console.log("Searching services within radius:", radius);
+
+  if (radius <= 0 || isNaN(radius)) {
+    alert("Please enter a valid radius value.");
+    return;
+  }
+
+  var latitude, longitude;
+
+  // Check if geolocation is available
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      latitude = position.coords.latitude;
+      longitude = position.coords.longitude;
+
+      map.setView([latitude, longitude], 13);
+      L.marker([latitude, longitude]).addTo(map)
+        .bindPopup('You are here!')
+        .openPopup();
+
+      box.classList.add("hidden"); // Hide the container box
+
+      resultsContainer.innerHTML = ""; // Clear previous results
+
+      // Simulate fake service locations
+      var serviceTypes = document.getElementById("selectedItems").getElementsByTagName("a");
+      for (var i = 0; i < serviceTypes.length; i++) {
+        var serviceType = serviceTypes[i].textContent;
+        var serviceLocations = [];
+        for (var j = 0; j < 3; j++) { // Generate 3 fake locations for each service type
+          var fakeLocation = getRandomCoordinateInRange(latitude, longitude, radius);
+          serviceLocations.push(fakeLocation);
+          L.marker(fakeLocation).addTo(map)
+            .bindPopup(serviceType + " #" + (j + 1))
+            .openPopup();
+
+          // Create the result item
+          var resultItem = document.createElement("div");
+          resultItem.classList.add("result");
+
+          // Create the result title
+          var resultTitle = document.createElement("div");
+          resultTitle.classList.add("result-title");
+          resultTitle.textContent = serviceType + " #" + (j + 1);
+          resultItem.appendChild(resultTitle);
+
+          // Create the result details
+          var resultDetails = document.createElement("div");
+          resultDetails.classList.add("result-details");
+          resultDetails.textContent = fakeLocation[0] + ", " + fakeLocation[1];
+          resultItem.appendChild(resultDetails);
+
+          // Create the result rating
+          var resultRating = document.createElement("div");
+          resultRating.classList.add("result-rating");
+          resultRating.textContent = "Rating: " + getRandomRating(); // Set the rating value or text
+          resultItem.appendChild(resultRating);
+
+          // Create the result image
+          var resultImage = document.createElement("img");
+          resultImage.classList.add("result-image");
+          resultImage.src = "https://picsum.photos/200/150?random=2"; // Set the image source
+          resultItem.appendChild(resultImage);
+
+          // Create the result link button
+          var resultLink = document.createElement("a");
+          resultLink.classList.add("result-link");
+          resultLink.textContent = "View Details";
+          resultLink.href = "shop-profile.html"; // Set the URL or page to navigate to
+          resultItem.appendChild(resultLink);
+
+          // Append the result item to the results container
+          resultsContainer.appendChild(resultItem);
+        }
+      }
+    }, function (error) {
+      console.error("Error occurred while retrieving location:", error.message);
+    });
+  } else {
+    alert("Geolocation is not supported by this browser.");
+  }
+
+  closeRadiusPopup();
+}
+
+function getRandomRating() {
+  // Generate a random rating value between 0 and 5
+  var rating = (Math.random() * 5).toFixed(1);
+  return rating;
+}
+
+    function toggleBox() {
+      var container = document.querySelector(".box");
+      var dropdownButton = document.querySelector(".dropdown-button");
+
+      if (container.style.display === "none") {
+        container.style.display = "block";
+        dropdownButton.innerHTML = "▲";
+      } else {
+        container.style.display = "none";
+        dropdownButton.innerHTML = "▼";
+      }
+    }
+
+    function updateRadius() {
+      var radius = document.getElementById("radius").value;
+      var dropdownButton = document.querySelector(".dropdown-button");
+
+      if (radius !== "") {
+        dropdownButton.style.display = "block";
+      } else {
+        dropdownButton.style.display = "none";
+      }
+    }
+    function displayResults() {
+  // Clear previous results
+  var resultsContainer = document.getElementById("results");
+  resultsContainer.innerHTML = "";
+
+  // Example data for demonstration
+  var results = [
+    { category: "Hospitals", number: "#1", latitude: 13.070797949796843, longitude: 80.34967591023721 },
+    // Add more results here...
+  ];
+
+  // Loop through results and create result boxes
+  for (var i = 0; i < results.length; i++) {
+    var result = results[i];
+
+    // Create result box
+    var resultBox = document.createElement("div");
+    resultBox.className = "result";
+
+    // Create result title
+    var resultTitle = document.createElement("div");
+    resultTitle.className = "result-title";
+    resultTitle.textContent = result.category + " " + result.number;
+    resultBox.appendChild(resultTitle);
+
+    // Create result details (latitude and longitude)
+    var resultDetails = document.createElement("div");
+    resultDetails.className = "result-details";
+    resultDetails.textContent = result.latitude + ", " + result.longitude;
+    resultBox.appendChild(resultDetails);
+
+    // Append result box to results container
+    resultsContainer.appendChild(resultBox);
+  }
+}
+
+  </script>
+</body>
+</html>

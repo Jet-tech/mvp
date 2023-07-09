@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Service Profile</title>
+  <style>
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f2f2f2;
+}
+
+.cover-pic {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  margin-bottom: 20px;
+}
+
+.cover-pic img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-pic {
+  position: absolute;
+  top: 100;
+  left: 25%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  overflow: hidden;
+  width: 150px;
+  height: 150px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-pic img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile {
+  width: 300px;
+  margin: 20px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile h2 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.profile h6 {
+  margin-bottom: 5px;
+  color: #666;
+}
+
+.profile p {
+  margin-top: 0;
+}
+
+.content-box {
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.features ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.features li {
+  padding: 5px 0;
+}
+
+.working-hours p {
+  margin: 5px 0;
+}
+
+.map-container {
+  display: none;
+  cursor: default;
+  height: 200px;
+  background-color: #ccc;
+  border: none;
+  color: #000;
+  position: relative;
+  margin-top: 20px;
+}
+
+.video-container {
+  display: block;
+  height: fit-content;
+  width: fit-content;
+  background-color: #ccc;
+  border: none;
+  color: #000;
+  position: absolute;
+  right: 500;
+  left: 400px;
+  top: 600px;
+  bottom: 10px;
+}
+
+.map {
+  position: fixed;
+  right: 100px;
+  left: 900px;
+  top: 300px;
+  bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.toggle-button {
+  position: fixed;
+  right: 30px;
+  top: 30px;
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  z-index: 2;
+  transition: background-color 0.3s;
+}
+
+.toggle-button:hover {
+  background-color: #45a049;
+}
+
+.toggle-button:focus {
+  outline: none;
+}
+
+.toggle-button.active {
+  background-color: #f44336;
+}
+
+.review-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-left: 19px;
+}
+
+.review {
+  margin-bottom: 20px;
+}
+
+.review p {
+  margin: 5px 0;
+}
+
+.review-form {
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.review-form h2 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.review-form form {
+  display: flex;
+  flex-direction: column;
+}
+
+.review-form .form-group {
+  margin-bottom: 10px;
+}
+
+.review-form label {
+  display: block;
+  margin-bottom: 3px;
+  font-weight: bold;
+}
+
+.review-form input[type="text"],
+.review-form textarea {
+  width: 100%;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.review-form textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.review-form .star-rating {
+  display: inline-flex;
+  align-items: center;
+}
+
+.review-form .star-rating input[type="radio"] {
+  display: none;
+}
+
+.review-form .star-rating label {
+  color: #999;
+  font-size: 18px;
+  cursor: pointer;
+  transition: color 0.3s;
+  margin-right: 3px;
+}
+
+.review-form .star-rating label:before {
+  content: '\2606';
+}
+
+.review-form .star-rating label:hover,
+.review-form .star-rating label:hover ~ label,
+.review-form .star-rating input[type="radio"]:checked ~ label {
+  color: #ffbf00;
+}
+
+.review-form input[type="submit"] {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.review-form input[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+.review-form input[type="submit"]:focus {
+  outline: none;
+}
+
+.review p {
+  margin: 5px 0;
+}
+
+  .profile:nth-child(2) {
+    margin-bottom: 0;
+  }
+
+
+  .shop-description {
+    position: absolute;
+    width: 400px; /* Adjust the width as needed */
+    top: 1025px; /* Adjust the top value as needed */
+    right: 500px; /* Adjust the right value as needed */
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .shop-description h2 {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .shop-description p.description {
+    margin: 10px 0; /* Updated margin to give space between h2 and p */
+    line-height: 1.5;
+  }
+  .menu {
+      background-color: #f2f2f2;
+      padding: 10px 0;
+    }
+
+    .menu ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    .menu li {
+      display: inline-block;
+      margin: 0 10px;
+    }
+
+    .menu li a {
+      text-decoration: none;
+      color: #333;
+      padding: 5px 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .menu li a:hover {
+      background-color: #ccc;
+    }
+
+    /* Modal styles */
+.modal {
+  display: none; /* Hide the modal by default */
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  max-width: 400px;
+  text-align: center;
+  border-radius: 5px;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+}
+
+.modal h3 {
+  margin-top: 0;
+}
+
+.modal p {
+  margin-bottom: 20px;
+}
+
+.modal-options {
+  display: flex;
+  justify-content: center;
+}
+
+.modal-option {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  margin: 0 10px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.modal-option:hover {
+  background-color: #45a049;
+}
+
+.modal-option:focus {
+  outline: none;
+}
+
+#reportModal {
+  display: none;
+}
+
+#reportModal textarea {
+  width: 100%;
+  height: 100px;
+  resize: vertical;
+  margin-bottom: 10px;
+}
+
+#reportModal .modal-options {
+  flex-wrap: wrap;
+}
+
+#reportModal .modal-option {
+  margin: 5px;
+}
+
+#reportModal #submit-report-btn {
+  margin-top: 10px;
+}
+
+footer {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+      flex-shrink: 0;
+    }
+    main {
+      flex: 1;
+    }
+
+    .bookmark-btn {
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .bookmark-btn .heart-icon {
+      font-size: 24px;
+      color: gray;
+    }
+
+    .bookmark-btn.bookmarked .heart-icon {
+      color: red;
+    }
+
+/* CSS code */
+.chatbox {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 300px;
+  background-color: #f1f1f1;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: none;
+  overflow: hidden;
+}
+
+.chatbox-header {
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
+}
+
+.chatbox-close {
+  float: right;
+  font-size: 22px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.chatbox-body {
+  padding: 10px;
+  height: 200px;
+  overflow-y: auto;
+}
+
+.chatbox-footer {
+  padding: 10px;
+}
+
+.message {
+  background-color: #e5e5ea;
+  padding: 8px;
+  margin-bottom: 8px;
+  border-radius: 5px;
+}
+
+#message-input {
+  width: 100%;
+  height: 60px;
+  resize: none;
+}
+
+#send-button {
+  display: none; /* Hide the button initially */
+}
+
+#chat-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  background-color: #4CAF50;
+  border: none;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.tooltip {
+  visibility: hidden;
+  position: absolute;
+  bottom: 110%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #000;
+  color: #fff;
+  text-align: center;
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 14px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+#chat-button:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+  </style>
+</head>
+<body>
+  
+  <div class="cover-pic">
+    <img src="https://picsum.photos/1200/300?random=1" alt="Cover Pic">
+    <div class="profile-pic">
+      <img src="https://picsum.photos/200/200?random=2" alt="Profile Picture">
+    </div>
+  </div>
+  <div class="menu">
+    <ul>
+      <li><a href="#" id="contact-btn">Contact</a></li> <!-- Contact button with ID -->
+      <li><a href="#" id="report-btn">Report Centre</a></li>
+      <button class="bookmark-btn" id="bookmark-btn">
+        <span class="heart-icon">&#10084;</span>
+      </button>
+    </ul>
+  </div>
+
+
+
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h3>Contact Information</h3>
+      <p id="modal-message"></p>
+      <div class="modal-options">
+        <a href="tel:+911234567890" class="modal-option">Call</a>
+        <a href="sms:+911234567890" class="modal-option">Message</a>
+      </div>
+    </div>
+  </div>
+  
+  <div id="reportModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h3>Report Centre</h3>
+      <p>Please select the reason for your report:</p>
+      <div class="modal-options">
+        <button class="modal-option" id="not-kind-btn">Not Kind</button>
+        <button class="modal-option" id="not-hygiene-btn">Not Hygiene</button>
+        <button class="modal-option" id="price-btn">Price</button>
+        <button class="modal-option" id="fake-advertising-btn">Fake Advertising</button>
+      </div>
+      <textarea id="complaint" placeholder="Enter your complaint"></textarea>
+      <button id="submit-report-btn" class="modal-option">Submit</button>
+    </div>
+  </div>
+  
+  <div class="profile">
+    <div class="content-box">
+      <h2 id="shop-name">Shop Name</h2>
+      <h6>Owner and Shop details</h6>
+      <p>Name: <span id="owner-name">Owner Name</span></p>
+      <p>Experience: <span id="experience">Experience</span></p>
+      <p>Age: <span id="age">Age</span></p>
+      <p>Address: <span id="address">Address</span></p>
+    </div>
+  </div>
+  
+  <div class="profile">
+    <div class="content-box">
+      <h2>Shop Features</h2>
+      <ul id="features-list"></ul>
+    </div>
+  </div>
+  
+  <div class="profile">
+    <div class="content-box">
+      <h2>Working Hours</h2>
+      <ul id="working-hours-list"></ul>
+    </div>
+  </div>
+  
+    <div class="video">
+        <div class="video-container">
+          <div class="video">
+            <iframe width="600" height="400" src="https://www.youtube.com/embed/Ki_0iES2cGI" frameborder="0" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+
+      <button id="chat-button" onclick="toggleChatbox()"></button>
+      <button id="chat-button" onclick="openChat()">
+        <span class="tooltip">Click here to provide suggestions and comments to the owner</span>
+        <i class="fas fa-comment"></i>
+      </button>
+      
+  
+      <div id="chatbox" class="chatbox">
+        <div class="chatbox-header">
+          <h3>Chat</h3>
+          <span class="chatbox-close" onclick="toggleChatbox()">&times;</span>
+        </div>
+        <div id="chatbox-body" class="chatbox-body">
+          <!-- Existing chat messages will be appended here -->
+        </div>
+        <div class="chatbox-footer">
+          <textarea id="message-input" placeholder="Type your message"></textarea>
+          <button id="send-button">Send</button>
+        </div>
+      </div>
+
+
+      <div class="shop-description">
+        <h2>Shop Description</h2>
+        <p id="shop-description-paragraph"></p>
+      </div>
+
+      <div class="map">
+        <div class="toggle-button" id="toggleButton" onclick="toggleMap()">Show Map</div>
+        <div class="marker-container">
+          <div class="marker"></div>
+        </div>
+        <div class="map-container" id="mapContainer">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3024.756630882852!2d-122.41941508461682!3d37.77492997975372!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s48!2sSan%20Francisco%2C%20CA%2C%20USA!5e0!3m2!1sen!2s!4v1625625953189!5m2!1sen!2s" width="300" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+      </div>
+      
+  <div class="review-container">
+    <h2>User Reviews</h2>
+    <div class="review">
+      <div id="reviews"></div>
+      <p>
+        JETTISON<br>
+        "I absolutely love this shop! The staff is always friendly and helpful,
+        and they have a great selection of products. The prices are reasonable,
+        and the service is excellent. I highly recommend it."
+      </p>
+    </div>
+    <div class="review">
+      <p>
+        MANOJ<br>
+        "This shop is amazing! The quality of their products is top-notch, and
+        the customer service is exceptional. I've been a regular customer for
+        years and have always had a fantastic experience."
+      </p>
+    </div>
+  </div>
+  
+  <div class="review-form">
+  <label for="review">Help others discover the service by sharing your feedback:</label><br>
+  <br>
+  <br>
+    <form>
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+      <div class="form-group">
+        <label for="review">Review:</label>
+        <textarea id="review" name="review" required></textarea>
+      </div>
+      <div class="form-group">
+        <label for="rating">Rating:</label>
+        <div class="star-rating">
+          <input type="radio" id="star1" name="rating" value="1" required>
+          <label for="star1"></label>
+          <input type="radio" id="star2" name="rating" value="2" required>
+          <label for="star2"></label>
+          <input type="radio" id="star3" name="rating" value="3" required>
+          <label for="star3"></label>
+          <input type="radio" id="star4" name="rating" value="4" required>
+          <label for="star4"></label>
+          <input type="radio" id="star5" name="rating" value="5" required>
+          <label for="star5"></label>
+        </div>
+      </div>
+      <div class="form-group">
+        <input type="submit" value="Submit">
+      </div>
+    </form>
+  </div>
+
+  <footer>
+    <p>&copy; 2023 MVP. All rights reserved.</p>
+  </footer>
+
+<script>
+function toggleMap() {
+  var mapContainer = document.getElementById("mapContainer");
+  var toggleButton = document.getElementById("toggleButton");
+
+  if (mapContainer.style.display === "none") {
+    mapContainer.style.display = "block";
+    toggleButton.innerHTML = "Hide Map";
+    toggleButton.classList.add("active");
+  } else {
+    mapContainer.style.display = "none";
+    toggleButton.innerHTML = "Show Map";
+    toggleButton.classList.remove("active");
+  }
+}
+
+// Update the rating value dynamically in the form
+var starRatingInputs = document.querySelectorAll('.star-rating input[type="radio"]');
+var ratingValue = document.getElementById('rating-value');
+
+starRatingInputs.forEach(function (input) {
+  input.addEventListener('change', function () {
+    ratingValue.textContent = this.value;
+  });
+});
+
+
+// Update the rating value dynamically in the form
+var starRatingInputs = document.querySelectorAll('.star-rating input[type="radio"]');
+var ratingValue = document.getElementById('rating-value');
+var reviewForm = document.querySelector('.review-form');
+var reviewsContainer = document.getElementById('reviews');
+
+starRatingInputs.forEach(function (input) {
+  input.addEventListener('change', function () {
+    ratingValue.textContent = this.value;
+  });
+});
+
+reviewForm.addEventListener('submit', function (event) {
+  event.preventDefault();
+
+  var name = document.getElementById('name').value;
+  var review = document.getElementById('review').value;
+  var rating = document.querySelector('.star-rating input[type="radio"]:checked').value;
+
+  var newReview = document.createElement('div');
+  newReview.classList.add('review');
+  newReview.innerHTML = `
+    <p>${name}</p>
+    <p>${review}</p>
+    <p>Rating: ${rating}</p>
+  `;
+
+  reviewsContainer.appendChild(newReview);
+
+  // Reset the form
+  reviewForm.reset();
+});
+
+
+// Random Shop Details
+var shopNames = ["ABC Shop", "XYZ Store", "The Fashion Hub", "Green Thumb Garden", "Tech Zone", "Food Paradise"];
+var shopTypes = ["Clothing", "Electronics", "Beauty", "Home Decor", "Books", "Grocery"];
+
+var randomShopName = shopNames[Math.floor(Math.random() * shopNames.length)];
+var randomShopType = shopTypes[Math.floor(Math.random() * shopTypes.length)];
+
+document.getElementById('shop-name').textContent = randomShopName;
+document.getElementById('owner-name').textContent = generateRandomName();
+document.getElementById('experience').textContent = generateRandomExperience();
+document.getElementById('age').textContent = generateRandomAge();
+document.getElementById('address').textContent = generateRandomAddress();
+
+
+// Random Name Generator
+function generateRandomName() {
+  var names = ["John", "Emily", "Michael", "Emma", "Daniel", "Olivia", "Matthew", "Sophia"];
+  var randomName = names[Math.floor(Math.random() * names.length)];
+  return randomName;
+}
+
+// Random Experience Generator
+function generateRandomExperience() {
+  var experiences = ["5 years", "10 years", "3 years", "8 years", "15 years", "2 years"];
+  var randomExperience = experiences[Math.floor(Math.random() * experiences.length)];
+  return randomExperience;
+}
+
+// Random Age Generator
+function generateRandomAge() {
+  var minAge = 20;
+  var maxAge = 50;
+  var randomAge = Math.floor(Math.random() * (maxAge - minAge + 1)) + minAge;
+  return randomAge
+}
+
+// Random Shop Features
+var shopFeatures = ["Hygienic", "Quality is good", "Spacious", "Affordable prices", "Excellent customer service", "Wide variety of products", "Convenient location", "Knowledgeable staff"];
+
+var featuresList = document.getElementById('features-list');
+var randomFeatures = getRandomElements(shopFeatures, 5); // Get 5 random features
+
+randomFeatures.forEach(function (feature) {
+  var listItem = document.createElement('li');
+  listItem.textContent = feature;
+  featuresList.appendChild(listItem);
+});
+
+// Random Working Hours
+var workingHours = [
+  "Monday: 8:00 AM to 6:00 PM",
+  "Tuesday: 9:00 AM to 7:00 PM",
+  "Wednesday: 10:00 AM to 8:00 PM",
+  "Thursday: 9:00 AM to 6:00 PM",
+  "Friday: 8:00 AM to 5:00 PM",
+  "Saturday: 10:00 AM to 4:00 PM",
+  "Sunday: Closed"
+];
+
+var workingHoursList = document.getElementById('working-hours-list');
+var randomWorkingHours = getRandomElements(workingHours, 3); // Get 3 random working hours
+
+randomWorkingHours.forEach(function (hours) {
+  var listItem = document.createElement('li');
+  listItem.textContent = hours;
+  workingHoursList.appendChild(listItem);
+});
+
+// Helper function to get random elements from an array
+function getRandomElements(arr, numElements) {
+  var shuffled = arr.slice(); // Copy the array to avoid modifying the original
+  var result = [];
+
+  for (var i = 0; i < numElements; i++) {
+    var randIndex = Math.floor(Math.random() * shuffled.length);
+    result.push(shuffled[randIndex]);
+    shuffled.splice(randIndex, 1);
+  }
+
+  return result;
+}
+
+// Random Address Generator
+function generateRandomAddress() {
+  var addresses = ["123 Main Street", "456 Elm Avenue", "789 Oak Street", "321 Maple Drive", "987 Pine Lane", "654 Cedar Road"];
+  var randomAddress = addresses[Math.floor(Math.random() * addresses.length)];
+  return randomAddress;
+}
+
+document.getElementById('address').textContent = generateRandomAddress();
+
+  // Random Shop Descriptions
+  var shopDescriptions = [
+    "Welcome to our shop, where you'll find a wide range of products to cater to your needs. We strive to offer the best quality and service to our customers. Explore our collection and experience the convenience of shopping with us.",
+    "Discover a world of possibilities at our shop. We bring you the latest trends and innovative products. With a dedicated team and a commitment to excellence, we ensure your satisfaction. Step in and indulge in a memorable shopping experience.",
+    "At our shop, we believe in providing nothing but the best. Our curated selection of products meets the highest standards of quality. From fashion to electronics and everything in between, we've got you covered. Visit us today and let us exceed your expectations.",
+    "Step into a haven of style and elegance at our shop. We pride ourselves on offering a diverse range of premium products. Our knowledgeable staff is here to assist you in finding exactly what you're looking for. Unleash your shopping desires with us.",
+    "Welcome to our shop, your one-stop destination for all your shopping needs. We're committed to delivering exceptional products and service. With a passion for customer satisfaction, we strive to create an enjoyable and rewarding shopping experience."
+  ];
+
+  // Get a random shop description
+  var randomShopDescription = shopDescriptions[Math.floor(Math.random() * shopDescriptions.length)];
+
+  // Set the random shop description in the HTML
+  document.getElementById('shop-description-paragraph').textContent = randomShopDescription;
+
+
+
+  // Get the Contact button element
+var contactButton = document.getElementById('contact-btn');
+
+// Add click event listener to the Contact button
+contactButton.addEventListener('click', function(event) {
+  event.preventDefault(); // Prevent default link behavior
+
+  // Get the center name and address from the profile
+  var centerName = document.getElementById('shop-name').textContent;
+  var address = document.getElementById('address').textContent;
+
+  // Generate a random Indian phone number
+  var phoneNumber = generateRandomPhoneNumber();
+
+  // Set the message content
+  var message = "Center Name: " + centerName + "<br>Address: " + address + "<br>Phone: " + phoneNumber;
+  var modalMessage = document.getElementById('modal-message');
+  modalMessage.innerHTML = message;
+
+  // Show the modal
+  var modal = document.getElementById('modal');
+  modal.style.display = "block";
+});
+
+// Close the modal when the close button is clicked
+var closeButton = document.getElementsByClassName('close')[0];
+closeButton.addEventListener('click', function() {
+  var modal = document.getElementById('modal');
+  modal.style.display = "none";
+});
+
+// Function to generate a random Indian phone number
+function generateRandomPhoneNumber() {
+  var phoneNumber = "+91"; // Indian country code
+
+  for (var i = 0; i < 10; i++) {
+    phoneNumber += Math.floor(Math.random() * 10);
+  }
+
+  return phoneNumber;
+}
+
+//REPORT
+
+// Get the Report button element
+var reportButton = document.getElementById('report-btn');
+
+// Add click event listener to the Report button
+reportButton.addEventListener('click', function(event) {
+  event.preventDefault(); // Prevent default link behavior
+
+  // Show the report center modal
+  var reportModal = document.getElementById('reportModal');
+  reportModal.style.display = "block";
+});
+
+// Close the report center modal when the close button is clicked
+var reportModalCloseButton = document.getElementById('reportModal').getElementsByClassName('close')[0];
+reportModalCloseButton.addEventListener('click', function() {
+  var reportModal = document.getElementById('reportModal');
+  reportModal.style.display = "none";
+});
+
+// Handle the submission of the report
+var submitReportButton = document.getElementById('submit-report-btn');
+submitReportButton.addEventListener('click', function() {
+  // Get the selected reason and complaint
+  var reason = "";
+  var reasonButtons = document.getElementById('reportModal').getElementsByClassName('modal-option');
+  for (var i = 0; i < reasonButtons.length; i++) {
+    if (reasonButtons[i].classList.contains('active')) {
+      reason = reasonButtons[i].textContent;
+      break;
+    }
+  }
+  var complaint = document.getElementById('complaint').value;
+
+  // Do something with the reason and complaint (e.g., send a request to the server)
+
+  // Clear the selected reason and complaint
+  for (var i = 0; i < reasonButtons.length; i++) {
+    reasonButtons[i].classList.remove('active');
+  }
+  document.getElementById('complaint').value = "";
+
+  // Close the report center modal
+  var reportModal = document.getElementById('reportModal');
+  reportModal.style.display = "none";
+});
+
+// Handle the selection of a reason in the report center modal
+var reportReasonButtons = document.getElementById('reportModal').getElementsByClassName('modal-option');
+for (var i = 0; i < reportReasonButtons.length; i++) {
+  reportReasonButtons[i].addEventListener('click', function() {
+    // Remove the "active" class from all buttons
+    for (var j = 0; j < reportReasonButtons.length; j++) {
+      reportReasonButtons[j].classList.remove('active');
+    }
+
+    // Add the "active" class to the clicked button
+    this.classList.add('active');
+  });
+}
+
+// Check if the page is bookmarked
+    function isBookmarked() {
+      return localStorage.getItem('bookmark') === 'true';
+    }
+
+// Toggle bookmark status and update UI
+    function toggleBookmark() {
+      var bookmarkButton = document.getElementById('bookmark-btn');
+      var heartIcon = bookmarkButton.querySelector('.heart-icon');
+      var isCurrentlyBookmarked = isBookmarked();
+
+      if (isCurrentlyBookmarked) {
+        localStorage.setItem('bookmark', 'false');
+        bookmarkButton.classList.remove('bookmarked');
+        heartIcon.style.color = 'gray';
+      } else {
+        localStorage.setItem('bookmark', 'true');
+        bookmarkButton.classList.add('bookmarked');
+        heartIcon.style.color = 'red';
+      }
+    }
+
+    // Add event listener to the bookmark button
+    var bookmarkButton = document.getElementById('bookmark-btn');
+    bookmarkButton.addEventListener('click', toggleBookmark);
+
+    // Check initial bookmark status on page load
+    if (isBookmarked()) {
+      bookmarkButton.classList.add('bookmarked');
+      var heartIcon = bookmarkButton.querySelector('.heart-icon');
+      heartIcon.style.color = 'red';
+    }
+    // Function to toggle the chatbox
+    function toggleChatbox() {
+      var chatbox = document.getElementById("chatbox");
+      chatbox.style.display = chatbox.style.display === "none" ? "block" : "none";
+    }
+
+    // Function to send a message
+    function sendMessage() {
+      var messageInput = document.getElementById("message-input");
+      var message = messageInput.value.trim();
+
+      if (message !== "") {
+        var chatboxBody = document.getElementById("chatbox-body");
+        var messageElement = document.createElement("div");
+        messageElement.className = "message";
+        messageElement.innerHTML = message;
+        chatboxBody.appendChild(messageElement);
+
+        messageInput.value = "";
+        chatboxBody.scrollTop = chatboxBody.scrollHeight; // Scroll to the bottom of the chatbox
+      }
+    }
+
+    // Attach event listeners
+    document.getElementById("chat-icon").addEventListener("click", toggleChatbox);
+    document.getElementById("send-button").addEventListener("click", sendMessage);
+  </script>
+
+</script>
+
+</body>
+</html>
